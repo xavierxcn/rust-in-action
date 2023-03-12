@@ -1,3 +1,5 @@
+mod garden;
+
 fn main() {
     let byte_escape = "I'm writing \x52\x75";
     println!("{:?}", byte_escape);
@@ -21,4 +23,8 @@ fn main() {
     };
 
     println!("{:?}", result);
+
+    println!("{:?}", garden::foo::FOO);
+
+    println!("{:?}", garden::foo::add(1, 2));
 }
