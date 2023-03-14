@@ -1,30 +1,16 @@
-mod garden;
+use std::sync::Arc;
+
 
 fn main() {
-    let byte_escape = "I'm writing \x52\x75";
-    println!("{:?}", byte_escape);
+    let mut s1 = String::from("hello");
 
-    let byte_string = b"I'm writing \x52\x75";
-    println!("{:?}", byte_string);
+    let s2 = &s1;
 
-    let ar: [i32; 9] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-    println!("{:?}", ar);
 
-    let mut v: Vec<i32> = Vec::new();
-    v.push(5);
-    println!("{:?}", v);
+    println!("{s2}");
 
-    let mut counter = 0;
-    let result = loop {
-        counter += 1;
-        if counter == 100 {
-            break counter * 2
-        }
-    };
+    s1.push_str(" world");
+    println!("{s1}");
 
-    println!("{:?}", result);
 
-    println!("{:?}", garden::foo::FOO);
-
-    println!("{:?}", garden::foo::add(1, 2));
 }
