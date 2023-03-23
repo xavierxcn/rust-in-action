@@ -1,16 +1,70 @@
-use std::sync::Arc;
-
+use std::{fs::File, io::Write, path::Path};
+use std::error::Error;
+use std::io::{BufRead, BufReader};
 
 fn main() {
-    let mut s1 = String::from("hello");
+    write_num_to_file("f.txt");
+    match read_num_from_file("f.txt") {
+        Err(err) => {
+            panic!("{:?}", err)
+        }
+        Ok(_) => {}
+    }
+}
 
-    let s2 = &s1;
+fn read_num_from_file(p: &str) -> Result<(), Box<dyn Error>> {
+    let mut v = Vec::new();
+    let path = Path::new(p);
+    let file = File::open(&path)?;
+
+    let buffer = BufReader::new(file);
+    for line in buffer.lines() {
+        if let Ok(line) = line {
+            let tokens: Vec<String> = line.split(',').map(|s| s.trim().to_string()).collect();
+            for token in tokens {
+                v.push(token);
+            }
+        } else {
+            panic!("read err")
+        }
+    }
+
+    
+
+    Ok(())
+}
 
 
-    println!("{s2}");
+fn write_num_to_file(p: &str) {
+    let path = Path::new(p);
 
-    s1.push_str(" world");
-    println!("{s1}");
+    let mut file = match File::create(&path) {
+        Err(err) => panic!("{:?}", err),
+        Ok(file) => file,
+    };
 
+    for i in 1..100 {
+        match file.write(i.to_string().as_bytes()) {
+            Err(err) => {
+                panic!("{:?}", err)
+            }
+            Ok(_) => {}
+        }
 
+        if i % 3 == 0 {
+            match file.write("\n".as_bytes()) {
+                Err(err) => {
+                    panic!("{:?}", err)
+                }
+                Ok(_) => {}
+            }
+        } else {
+            match file.write(",".as_bytes()) {
+                Err(err) => {
+                    panic!("{:?}", err)
+                }
+                Ok(_) => {}
+            }
+        }
+    }
 }
