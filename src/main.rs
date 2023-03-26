@@ -32,7 +32,6 @@ fn read_num_from_file(p: &str) -> Result<(), Box<dyn Error>> {
 
     v.reverse();
 
-    // 按照write的格式把v中的元素写入一个新文件
     let mut file = File::create("f2.txt")?;
     for i in 0..v.len() {
         file.write(v[i].as_bytes())?;
